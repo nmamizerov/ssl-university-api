@@ -13,13 +13,16 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 
 
-# install system dependencies in one layer (добавлены зависимости для PostgreSQL)
+# install system dependencies in one layer (расширенный набор для PostgreSQL)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+        build-essential \
         gcc \
+        g++ \
         libc6-dev \
         libpq-dev \
-        build-essential && \
+        postgresql-client \
+        python3-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # upgrade pip
@@ -51,12 +54,13 @@ ENV HOME=/home/app \
 
 WORKDIR $APP_HOME
 
-# install system dependencies and setup locales in one layer (добавлен libpq5 для runtime)
+# install system dependencies and setup locales in one layer
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         netcat-traditional \
         locales \
-        libpq5 && \
+        libpq5 \
+        postgresql-client && \
     sed -i -e 's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     rm -rf /var/lib/apt/lists/*
