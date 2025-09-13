@@ -1,0 +1,8 @@
+*.pyc
+.idea
+env
+venv
+init-db-redis.sh
+
+#production static (if collected in dev)
+static

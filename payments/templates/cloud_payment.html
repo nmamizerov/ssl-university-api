@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cloud Payment</title>
+    <script src="https://widget.cloudpayments.ru/bundles/cloudpayments"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        let receipt = {
+            "Items": [
+                {
+                    "label": "{{ name }}",
+                    "price": {{ amount }},
+                    "quantity": 1.00,
+                    "amount": {{ amount }},
+                    "vat": {{ vat }}
+                },
+            ],
+            "email": "{{ accountId }}",
+            "phone": "",
+            "customerInfo": "",
+            "isBso": false,
+            "AgentSign": null,
+            "amounts":
+            {
+                "electronic": {{ amount }},
+                "advancePayment": 0.00,
+                "credit": 0.00,
+                "provision": 0.00
+            }
+        };
+
+        this.pay = function () {
+            var widget = new cp.CloudPayments();
+            widget.pay('auth',
+                {
+                    "publicId": "{{ publicId }}",
+                    "description": "{{ name }}",
+                    "amount": {{ amount }},
+                    "currency": "RUB",
+                    "accountId": "{{ accountId }}",
+                    "invoiceId": "{{ invoiceId }}",
+                    "skin": 'mini',
+                    "data": {
+                        "cloudPayments": {
+                            "CustomerReceipt": receipt,
+                        }
+                    }
+                }
+            )
+        };
+
+        document.addEventListener("DOMContentLoaded", pay);
+    </script>
+</body>
+</html>
