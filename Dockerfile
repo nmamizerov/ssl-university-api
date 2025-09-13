@@ -13,11 +13,13 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 
 
-# install system dependencies in one layer
+# install system dependencies in one layer (добавлены зависимости для PostgreSQL)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         gcc \
-        libc6-dev && \
+        libc6-dev \
+        libpq-dev \
+        build-essential && \
     rm -rf /var/lib/apt/lists/*
 
 # upgrade pip
@@ -25,7 +27,6 @@ RUN pip install --upgrade pip
 
 # copy requirements first for better layer caching
 COPY requirements.txt ./
-
 
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
 
@@ -50,11 +51,12 @@ ENV HOME=/home/app \
 
 WORKDIR $APP_HOME
 
-# install system dependencies and setup locales in one layer
+# install system dependencies and setup locales in one layer (добавлен libpq5 для runtime)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         netcat-traditional \
-        locales && \
+        locales \
+        libpq5 && \
     sed -i -e 's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     rm -rf /var/lib/apt/lists/*
