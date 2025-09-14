@@ -53,11 +53,7 @@ class ExternalAuthAttemptViewSet(viewsets.ModelViewSet):
     def api_login(self, request):
         try:
             authorized_user = auth(
-                content=request.data,
-                is_auto_login=False,
-                check_login=True,
-                check_password=False,
-                need_temporary_code=True,
+                content=request.data, is_auto_login=True, need_temporary_code=True
             )
         except Exception as error:
             logger.exception(error)
