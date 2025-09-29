@@ -19,7 +19,8 @@ def refresh_token(refresh):
     }
     request = requests.post(url, data=data)
     request_dict = json.loads(request.text)
-    # logging.debug(request)
+    logging.debug(request.status_code)
+    logging.debug(request_dict)
     refresh_code = request_dict["refresh_token"]
     access_token = request_dict["access_token"]
     expires_in = request_dict["expires_in"]
