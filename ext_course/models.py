@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 import logging, json
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("django.server")
 
 
 # logging.basicConfig(filename='example.log', level=logging.DEBUG)
