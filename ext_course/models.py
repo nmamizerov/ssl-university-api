@@ -5,6 +5,8 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 import logging, json
 
+logger = logging.getLogger(__name__)
+
 
 # logging.basicConfig(filename='example.log', level=logging.DEBUG)
 def refresh_token(refresh):
@@ -19,8 +21,8 @@ def refresh_token(refresh):
     }
     request = requests.post(url, data=data)
     request_dict = json.loads(request.text)
-    logging.debug(request.status_code)
-    logging.debug(request_dict)
+    logger.debug(request.status_code)
+    logger.debug(request_dict)
     refresh_code = request_dict["refresh_token"]
     access_token = request_dict["access_token"]
     expires_in = request_dict["expires_in"]
