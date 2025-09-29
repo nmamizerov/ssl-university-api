@@ -14,15 +14,15 @@ def refresh_token(refresh):
     url = "https://sslklimenko.amocrm.ru/oauth2/access_token"
     data = {
         "client_id": "3401fa29-4301-4545-9864-9cbe6f892f7e",
-        "client_secret": "wiM5E7mAfvd7Tg0g9V3FKCcKna8dHrK5F92Zmoq6FCgDzyX9lhV5n4UAT1Wh8UJq",
+        "client_secret": "BVCCayMkQHOXDZbyS6GzQSnwoMTM3e6XQekA0D0GrqMFaZHqdNyMLWzS2EsiEBWY",
         "grant_type": "refresh_token",
         "refresh_token": refresh,
         "redirect_uri": "https://api.university.skillslab.center/api/amocrm",
     }
     request = requests.post(url, data=data)
     request_dict = json.loads(request.text)
-    logger.debug(request.status_code)
-    logger.debug(request_dict)
+    logger.info(request.status_code)
+    logger.info(request_dict)
     refresh_code = request_dict["refresh_token"]
     access_token = request_dict["access_token"]
     expires_in = request_dict["expires_in"]
