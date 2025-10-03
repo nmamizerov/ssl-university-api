@@ -231,6 +231,7 @@ class Payment(models.Model):
             json=self._configure_init_json_tinkoff(),
         )
         payload = json.loads(response.text)
+        logging.info(payload)
         logging.debug(self._configure_init_json_tinkoff())
         if not payload["Success"]:
             raise ValueError(payload["Details"])
